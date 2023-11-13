@@ -1,0 +1,270 @@
+openapi: '3.0.2'
+info:
+  title: Hatespeech Plugin API
+  version: '1.0'
+servers:
+  - url: https://hateplugin.zeugs.online
+paths:
+  /register_plugin_user:
+    post:
+      description: Register new Plugin user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  description: Plugin user id
+                  type: string
+      responses:
+        '200':
+          description: Plugin user created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  time_created:
+                    description: Time created
+                    type: string
+                  plugin_user_id:
+                    description: Plugin user id
+                    type: string
+  /check_message:
+    post:
+      description: 'Check whether a message/tweet is hateful or misogynistic'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  description: Message / tweet
+                  type: string
+                models:
+                  description: Selected models
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - hate
+                      - misogyny
+                platform:
+                  description: Social media platform
+                  type: string
+                  enum:
+                    - twitter
+                    - tiktok    
+      responses:
+        '200':
+          description: Checking successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    description: Message / tweet
+                    type: string
+                  platform:
+                    description: Social media platform
+                    type: string
+                    enum:
+                      - twitter
+                      - tiktok 
+                  result:
+                    description: Checking result
+                    type: object
+                    properties:
+                      hate:
+                        type: boolean
+                      misogyny:
+                        type: boolean
+  /check_user:
+    post:
+      description: 'Check whether social media (Twitter/Tiktok) user is hateful'
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  description: Username
+                  type: string
+                platform:
+                  description: Social media platform
+                  type: string
+                  enum:
+                  - twitter
+                  - tiktok
+      responses:
+        '200':
+          description: Checking successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    description: Username of twitter/tiktok user
+                    type: string
+                  is_hateful:
+                    description: Is the user hateful
+                    type: boolean
+                  feedback:
+                    description: Feedback
+                    type: string
+  /report_user:
+    post:
+      description: Report a Twitter/Tiktok user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  description: Username of twitter/tiktok user
+                  type: string
+                platform:
+                  description: Social media platform
+                  type: string
+                  enum:
+                  - twitter
+                  - tiktok
+                reporter_user_id:
+                  description: Reporter plugin user id
+                  type: string
+                reason:
+                  description: Reason user is reported
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - hate
+                      - misogyny
+                feedback:
+                  description: Optional, feedback that is given by the reporter
+                  type: string
+      responses:
+        '200':
+          description: Reporting successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  time_created:
+                    description: Time report is created
+                    type: string
+                  username:
+                    description: Username of twitter/tiktok user
+                    type: string
+                  platform:
+                    description: Social media platform
+                    type: string
+                    enum:
+                    - twitter
+                    - tiktok
+                  reporter_user_id:
+                    description: Reporter plugin user id
+                    type: string
+                  reason:
+                    description: Reason user is reported
+                    type: array
+                    items:
+                      type: string
+                      enum:
+                        - hate
+                        - misogyny
+                  feedback:
+                    description: Optional, feedback that is given by the reporter
+                    type: string
+  /report_message:
+    post:
+      description: Report a message/tweet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  description: Reported message
+                  type: string
+                username:
+                  description: Username of twitter/tiktok user
+                  type: string
+                platform:
+                  description: Social media platform
+                  type: string
+                  enum:
+                  - twitter
+                  - tiktok
+                reporter_user_id:
+                  description: Reporter plugin user id
+                  type: string
+                reason:
+                  description: Reason message is reported
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - hate
+                      - misogyny
+                feedback:
+                  description: Optional, feedback that is given by the reporter
+                  type: string
+      responses:
+        '200':
+          description: Reporting successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  time_created:
+                    description: Time report is created
+                    type: string
+                  message:
+                    description: Reported message
+                    type: string
+                  username:
+                    description: Username of twitter/tiktok user
+                    type: string
+                  platform:
+                    description: Social media platform
+                    type: string
+                    enum:
+                    - twitter
+                    - tiktok
+                  reporter_user_id:
+                    description: Reporter plugin user id
+                    type: string
+                  reason:
+                    description: Reason message is reported
+                    type: array
+                    items:
+                      type: string
+                      enum:
+                        - hate
+                        - misogyny
+                  feedback:
+                    description: Optional, feedback that is given by the reporter
+                    type: string   
+  
+  
+
+
+  
+
+    
+
